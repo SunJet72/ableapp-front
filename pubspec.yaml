@@ -17,6 +17,11 @@ dependencies:
   flutter_native_splash: ^2.4.5
   geolocator: ^13.0.3
   latlong2: ^0.9.1
+  flutter_bloc: ^9.1.0
+  flutter_map: ^8.1.1
+  flutter_map_location_marker: ^10.0.0
+  location: ^8.0.0
+  equatable: ^2.0.7
 
 dev_dependencies:
   flutter_test:
