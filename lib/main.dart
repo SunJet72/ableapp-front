@@ -1,7 +1,6 @@
 import 'package:able_app/features/maps/presentation/blocs/location_bloc.dart';
 import 'package:able_app/features/maps/presentation/screens/landing_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:able_app/features/maps/presentation/screens/main_map_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -13,7 +12,6 @@ void main() async{
   FlutterNativeSplash.preserve(widgetsBinding: bindings);
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const AbleApp());
-  
 }
 
 class AbleApp extends StatelessWidget {
