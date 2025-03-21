@@ -1,3 +1,3 @@
 enum TerrainEnum{
-  EASY, SOMETIMES, OFTEN, HARD
+  EASY, MEDIUM, HARD, IMPOSSIBLE
 }

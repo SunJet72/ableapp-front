@@ -1,3 +1,3 @@
 enum StairsEnum {
-  ZERO, OneTillNine, TenTillTwenty, TwentyOneTillFifty, Unlimited
+  ZERO, OneTillNine, TenTillNineteen, TwentyTillFifty, Unlimited
 }
