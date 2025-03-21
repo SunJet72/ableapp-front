@@ -31,7 +31,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
               location: LatLng(locationData.latitude!, locationData.longitude!),
             );
           }
-          return state; // Return current state if no valid location
+          return state;
         },
         onError: (_, __) => const LocationError(message: "Failed to get location"),
       );

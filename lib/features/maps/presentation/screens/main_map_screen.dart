@@ -5,7 +5,7 @@ import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 
-import '../blocs/location_bloc.dart';
+import '../blocs/location/location_bloc.dart';
 
 class MainMapScreen extends StatefulWidget {
   const MainMapScreen({super.key});
