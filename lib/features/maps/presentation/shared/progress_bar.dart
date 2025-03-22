@@ -52,6 +52,7 @@ Widget build(BuildContext context) {
   final double barWidth = MediaQuery.of(context).size.width * 0.8;
   final double barHeight = 30;
   final double indicatorRadius = 18;
+  generateProgressBar();
 
   return SizedBox(
     width: barWidth + indicatorRadius * 2,
