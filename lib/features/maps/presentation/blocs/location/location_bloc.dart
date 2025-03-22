@@ -21,7 +21,6 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     Emitter<LocationState> emit,
   ) async {
     emit(LocationLoading());
-
     if (await _checkLocationPermission()) {
       await emit.forEach(
         _location.onLocationChanged,
@@ -31,7 +30,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
               location: LatLng(locationData.latitude!, locationData.longitude!),
             );
           }
-          return state; // Return current state if no valid location
+          return state;
         },
         onError:
             (_, __) => const LocationError(message: "Failed to get location"),

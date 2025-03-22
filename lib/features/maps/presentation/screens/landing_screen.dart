@@ -2,11 +2,11 @@ import 'package:able_app/config/constants/app_colors.dart';
 import 'package:able_app/config/enums/stairs_enum.dart';
 import 'package:able_app/config/enums/terrain_enum.dart';
 import 'package:able_app/features/maps/presentation/blocs/user_bloc/user_bloc.dart';
-import 'package:able_app/features/maps/presentation/screens/main_map_screen.dart';
-import 'package:able_app/features/maps/shared/difficulty_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dial_knob/flutter_dial_knob.dart';
+
+import '../blocs/user/user_bloc.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
@@ -38,10 +38,6 @@ class _LandingScreenState extends State<LandingScreen> {
       selectedStairs = "1-9";
     } else if (value > 0.4 && value <= 0.6) {
       stairsCount = StairsEnum.TenTillNineteen;
-      selectedStairs = "10-19";
-    } else if (value > 0.6 && value <= 0.8) {
-      stairsCount = StairsEnum.TwentyTillFifty;
-      selectedStairs = "20-50";
     } else {
       stairsCount = StairsEnum.Unlimited;
       selectedStairs = "Unlimited ∞";

@@ -1,14 +1,12 @@
-import 'package:able_app/features/maps/presentation/blocs/location_bloc.dart';
-import 'package:able_app/features/maps/presentation/blocs/user_bloc/user_bloc.dart';
 import 'package:able_app/features/maps/presentation/screens/landing_screen.dart';
-import 'package:able_app/features/maps/presentation/screens/main_map_screen.dart';
-import 'package:able_app/features/maps/shared/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'config/theme/app_theme.dart';
+import 'features/maps/presentation/blocs/location/location_bloc.dart';
+import 'features/maps/presentation/blocs/user/user_bloc.dart';
 
 void main() async{
   final bindings = WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +35,7 @@ class AbleApp extends StatelessWidget {
         theme: AppTheme.light,
       // home:  MainMapScreen(),
        //home:  SettingsScreen(),
-        home:  LandingScreen(),
+        home:  const LandingScreen(),
       ),
     );
   }

@@ -1,5 +1,5 @@
 import 'package:able_app/config/constants/app_colors.dart';
-import 'package:able_app/features/maps/shared/search_field.dart';
+import 'package:able_app/features/maps/presentation/shared/search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -7,7 +7,7 @@ import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 
-import '../blocs/location_bloc.dart';
+import '../blocs/location/location_bloc.dart';
 
 class MainMapScreen extends StatefulWidget {
   const MainMapScreen({super.key});
@@ -55,6 +55,9 @@ class _MainMapScreenState extends State<MainMapScreen> {
                   options: MapOptions(
                     initialZoom: 12,
                     initialCenter: state.location,
+                    interactionOptions: const InteractionOptions(
+                      flags: ~InteractiveFlag.doubleTapZoom,
+                    ),
                   ),
                   children: [
                     
@@ -63,6 +66,7 @@ class _MainMapScreenState extends State<MainMapScreen> {
                           'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                       userAgentPackageName: 'dev.fleaflet.flutter_map.example',
                     ),
+                    PolylineLayer(polylines: [Polyline(points: [])]),
                     const CurrentLocationLayer(),
                   ],
                 ),
@@ -70,7 +74,6 @@ class _MainMapScreenState extends State<MainMapScreen> {
                   children: [
                     SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                     SearchField(formatKey),
-                    
                   ],
                 ),
               ],
