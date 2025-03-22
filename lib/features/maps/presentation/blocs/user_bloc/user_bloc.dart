@@ -13,17 +13,23 @@ part 'user_state.dart';
 class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc()
     : super(
-        const UserState(terrain: TerrainEnum.EASY, stairs: StairsEnum.ZERO),
+        const UserState(gravel: TerrainEnum.EASY, stairs: StairsEnum.ZERO, sand: TerrainEnum.EASY),
       ) {
-    on<ChangeTerrainEvent>(_onChangeTerrainEvent);
+    on<ChangeGravelEvent>(_onChangeGravelEvent);
     on<ChangeStairsEvent>(_onChangeStairsEvent);
+    on<ChangeSandEvent>(_onChangeSandEvent);
   }
 
-  FutureOr<void> _onChangeTerrainEvent(
-    ChangeTerrainEvent event,
+
+  FutureOr<void> _onChangeSandEvent( ChangeSandEvent event, Emitter<UserState> emit) async {
+    emit(state.copyWith(sand: event.sand));
+  }
+
+  FutureOr<void> _onChangeGravelEvent(
+    ChangeGravelEvent event,
     Emitter<UserState> emit,
   ) async {
-    emit(state.copyWith(terrain: event.terrain));
+    emit(state.copyWith(gravel: event.gravel));
   }
 
   FutureOr<void> _onChangeStairsEvent(

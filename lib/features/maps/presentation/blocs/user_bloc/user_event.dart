@@ -4,13 +4,23 @@ sealed class UserEvent extends Equatable {
   const UserEvent();
 }
 
-final class ChangeTerrainEvent extends UserEvent {
-  final TerrainEnum terrain;
+final class ChangeGravelEvent extends UserEvent {
+  final TerrainEnum gravel;
 
-  const ChangeTerrainEvent({required this.terrain});
+  const ChangeGravelEvent({required this.gravel});
 
   @override
-  List<Object?> get props => [terrain];
+  List<Object?> get props => [gravel];
+}
+
+
+final class ChangeSandEvent extends UserEvent {
+  final TerrainEnum sand;
+
+  const ChangeSandEvent({required this.sand});
+
+  @override
+  List<Object?> get props => [sand];
 }
 
 final class ChangeStairsEvent extends UserEvent {

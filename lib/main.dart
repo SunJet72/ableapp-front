@@ -1,4 +1,5 @@
 import 'package:able_app/features/maps/presentation/blocs/location_bloc.dart';
+import 'package:able_app/features/maps/presentation/blocs/user_bloc/user_bloc.dart';
 import 'package:able_app/features/maps/presentation/screens/landing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +23,7 @@ class AbleApp extends StatelessWidget {
     FlutterNativeSplash.remove();
     return MultiBlocProvider(
       providers: [
+        BlocProvider<UserBloc>(create: (context) => UserBloc()),
         BlocProvider<LocationBloc>(
           create:
               (context) => LocationBloc()..add(const GetCurrentLocationEvent()),
