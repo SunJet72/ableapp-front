@@ -15,7 +15,7 @@ class RouteRepositoryImpl implements RouteRepository {
 
   const RouteRepositoryImpl({required this.client});
 
-  static const String _baseUrl = String.fromEnvironment('BASE_URL');
+  static const String _baseUrl = 'https://ableapp.sunjet-project.de/api/route';
   final String _routePath = '$_baseUrl/api/route';
 
   @override

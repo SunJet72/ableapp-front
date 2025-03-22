@@ -3,9 +3,11 @@ import 'package:able_app/features/maps/presentation/screens/settings_screen.dart
 import 'package:flutter/material.dart';
 
 class SearchField extends StatefulWidget {
-  SearchField(GlobalKey? key1) {
+  SearchField(GlobalKey? key1, bool withButton) {
     this.formatKey = key1 ?? GlobalKey();
+    this.withButton=withButton;
   }
+  bool withButton=false;
 
   late GlobalKey formatKey;
 
@@ -35,12 +37,12 @@ class _SearchFieldState extends State<SearchField> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.6,
                     child: TextFormField(
-                      decoration: const InputDecoration(
+                      decoration:  InputDecoration(
                         icon: Icon(Icons.search, color: AppColors.appBlue),
 
                         border: InputBorder.none,
                         labelStyle: TextStyle(color: AppColors.appBlue),
-                        labelText: 'Search',
+                        labelText: widget.withButton? 'From': 'To',
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -55,7 +57,7 @@ class _SearchFieldState extends State<SearchField> {
             ),
           ),
 
-          SizedBox(
+          widget.withButton? SizedBox(
             height: MediaQuery.of(context).size.height * 0.08,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
@@ -67,7 +69,7 @@ class _SearchFieldState extends State<SearchField> {
               },
               child: const Icon(Icons.settings, color: AppColors.appBlue),
             ),
-          ),
+          ) : SizedBox(height: MediaQuery.of(context).size.height * 0.08,),
         ],
       ),
     );

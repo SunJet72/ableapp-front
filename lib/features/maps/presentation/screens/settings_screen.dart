@@ -576,8 +576,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop();
-                //showInfoHouse(0, 0);
+                //Navigator.of(context).pop();
+                showInfoHouse(0, 0);
                 // showWayInfo(null);
               },
               child: const Text("OK", style: TextStyle(color: Colors.white)),
