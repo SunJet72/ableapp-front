@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math' as math;
 import 'dart:math';
 
@@ -37,6 +38,105 @@ class _MainMapScreenState extends State<MainMapScreen> {
   
 
 
+  void showInfoHouse1(double len, double lon) async {
+    len = 50.935429;
+    lon = 11.578313;
+    int counter = 20;
+
+    String ur =
+        "https://nominatim.openstreetmap.org/reverse?format=json&lat=${len}&lon=${lon}";
+    Uri uri = Uri.parse(ur);
+    try {
+      final response = await http.get(
+        uri,
+        headers: {
+          'User-Agent': 'Sigma', // Nominatim требует User-Agent
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        print("data: ${data['display_name']}");
+        showDialog(
+          context: context,
+          builder: (context) {
+            return Center(
+              child: Container(
+                color: Colors.white,
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                    Text(
+                      textAlign: TextAlign.center,
+                      data['display_name'],
+                      style: TextStyle(color: AppColors.appBlue, fontSize: 15),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                    Text(
+                      textAlign: TextAlign.center,
+                      "Would you report for a problem?",
+                      style: TextStyle(color: AppColors.appBlue, fontSize: 15),
+                    ),
+                    Text(
+                      textAlign: TextAlign.center,
+                      "Press \"Report\" to start a contribution!",
+                      style: TextStyle(color: AppColors.appBlue, fontSize: 15),
+                    ),
+
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+
+                    counter >= 10
+                        ? Text(
+                          textAlign: TextAlign.center,
+                          "This place was reported ${counter} times",
+                          style: TextStyle(
+                            color: AppColors.appRed,
+                            fontSize: 10,
+                          ),
+                        )
+                        : SizedBox(),
+
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                      ),
+
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return SettingsScreen();
+                            },
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        "report",
+                        style: TextStyle(
+                          color: AppColors.appBlue,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+        return data['display_name'];
+      } else {
+        print('Ошибка запроса: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Ошибка при получении адреса: $e');
+      return null;
+    }
+  }
+  List<Marker> mekers=[];
 
 
    void showInfoHouse(double len, double lon) async {
@@ -73,7 +173,7 @@ class _MainMapScreenState extends State<MainMapScreen> {
                       textAlign: TextAlign.center,
                      // data['display_name'],
                       //data['display_name'],
-                      "Cringe",
+                      "Landgranf",
                       style: TextStyle(color: AppColors.appBlue, fontSize: 15),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.1),
@@ -84,7 +184,7 @@ class _MainMapScreenState extends State<MainMapScreen> {
                     ),
                     const Text(
                       textAlign: TextAlign.center,
-                      "Press \"Share\" to start a contribution!",
+                      "Press \"Report\" to start a contribution!",
                       style: TextStyle(color: AppColors.appBlue, fontSize: 15),
                     ),
 
@@ -163,19 +263,31 @@ class _MainMapScreenState extends State<MainMapScreen> {
                 FlutterMap(
                   mapController: mapController,
                   options: MapOptions(
-                    initialZoom: 12,
+                    onLongPress: (mapPosition, letln) {
+                      print(mapPosition);
+                      print(letln);
+                      if(mekers.isNotEmpty){mekers.clear();}
+                      mekers.add(Marker(child:Icon(Icons.location_on, color: AppColors.appRed,), point: letln));
+                      setState((){});
+                      showInfoHouse1(letln.latitude, letln.longitude);
+                      
+                      //Navigator.of(context).pop();
+                    },
+                    initialZoom: 17,
                     // initialCenter: state.location,
-                    initialCenter: LatLng(50.935429, 11.578313),
+                    initialCenter: LatLng(50.936535,  11.579461),
                     interactionOptions: const InteractionOptions(
                       flags: ~InteractiveFlag.doubleTapZoom,
                     ),
                   ),
                   children: [
+                    
                     TileLayer(
                       urlTemplate:
                           'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                       userAgentPackageName: 'dev.fleaflet.flutter_map.example',
                     ),
+                    
                     BlocBuilder<RouteBloc, RouteState>(
                       builder: (context, state) {
                         print(state);
@@ -195,6 +307,11 @@ class _MainMapScreenState extends State<MainMapScreen> {
                           return const SizedBox.shrink();
                         }
                       },
+                    ),
+                    MarkerLayer(
+                      markers: [
+                       ...mekers
+                      ],
                     ),
                     const CurrentLocationLayer(),
                   ],

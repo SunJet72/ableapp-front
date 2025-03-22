@@ -143,7 +143,7 @@ class _LandingScreenState extends State<LandingScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "Sand: ",
+                    "Cobblestone: ",
                     style: TextStyle(color: AppColors.appBlue, fontSize: 30),
                   ),
                   AnimatedSwitcher(
