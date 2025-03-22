@@ -17,11 +17,10 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }
 
   FutureOr<void> _onGetCurrentLocationEvent(
-      GetCurrentLocationEvent event,
-      Emitter<LocationState> emit,
-      ) async {
+    GetCurrentLocationEvent event,
+    Emitter<LocationState> emit,
+  ) async {
     emit(LocationLoading());
-
     if (await _checkLocationPermission()) {
       await emit.forEach(
         _location.onLocationChanged,
@@ -33,7 +32,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
           }
           return state;
         },
-        onError: (_, __) => const LocationError(message: "Failed to get location"),
+        onError:
+            (_, __) => const LocationError(message: "Failed to get location"),
       );
     } else {
       emit(const LocationError(message: "Cannot load location"));
@@ -41,20 +41,27 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }
 
   Future<bool> _checkLocationPermission() async {
-    bool serviceEnabled = await _location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await _location.requestService();
+    try {
+      bool serviceEnabled = await _location.serviceEnabled();
       if (!serviceEnabled) {
-        return false;
+        serviceEnabled = await _location.requestService();
+        if (!serviceEnabled) {
+          return false;
+        }
       }
-    }
-    PermissionStatus status = await _location.hasPermission();
-    if (status == PermissionStatus.denied) {
-      status = await _location.requestPermission();
-      if (status != PermissionStatus.granted) {
-        return false;
+
+      PermissionStatus status = await _location.hasPermission();
+      if (status == PermissionStatus.denied) {
+        status = await _location.requestPermission();
+        if (status != PermissionStatus.granted) {
+          return false;
+        }
       }
+
+      return true;
+    } catch (e) {
+      print("❌ Ошибка при проверке разрешений геолокации: $e");
+      return false;
     }
-    return true;
   }
 }

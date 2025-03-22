@@ -1,3 +1,5 @@
+import 'package:able_app/config/constants/app_colors.dart';
+import 'package:able_app/features/maps/presentation/shared/search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -18,11 +20,12 @@ class _MainMapScreenState extends State<MainMapScreen> {
   final MapController mapController = MapController();
   final Location location = Location();
   LatLng? currentLocation;
+  final formatKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Map')),
+      //appBar: AppBar(title: const Text('Map')),
       body: BlocConsumer<LocationBloc, LocationState>(
         listener: (context, state) {
           if (state is LocationError) {
@@ -45,18 +48,30 @@ class _MainMapScreenState extends State<MainMapScreen> {
           if (state is LocationLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is LocationLoaded) {
-            return FlutterMap(
-              mapController: mapController,
-              options: MapOptions(
-                initialZoom: 12,
-                initialCenter: state.location,
-              ),
+            return Stack(
               children: [
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+                FlutterMap(
+                  mapController: mapController,
+                  options: MapOptions(
+                    initialZoom: 12,
+                    initialCenter: state.location,
+                  ),
+                  children: [
+                    TileLayer(
+                      urlTemplate:
+                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+                    ),
+                    const CurrentLocationLayer(),
+                  ],
                 ),
-                const CurrentLocationLayer(),
+                Column(
+                  children: [
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                    SearchField(formatKey),
+                    
+                  ],
+                ),
               ],
             );
           }

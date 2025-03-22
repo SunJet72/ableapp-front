@@ -150,6 +150,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "9.1.0"
+  flutter_dial_knob:
+    dependency: "direct main"
+    description:
+      name: flutter_dial_knob
+      sha256: d1cf6c9a54e6f42f379824f41a08c06a6d2bae663380fa4434973b3d23124c4d
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   flutter_lints:
     dependency: "direct dev"
     description:
