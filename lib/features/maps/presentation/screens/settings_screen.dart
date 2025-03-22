@@ -215,377 +215,384 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
       body: Center(
-        child: Column(
-          children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-
-            BlocBuilder<UserBloc, UserState>(
-              builder: (context, state) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Stairs: ",
-                      style: TextStyle(color: AppColors.appBlue, fontSize: 30),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.2),
-                    DropdownButton<StairsEnum>(
-                      value: state.stairs,
-                      items: const [
-                        DropdownMenuItem<StairsEnum>(
-                          child: Text(
-                            "0",
-                            style: TextStyle(
-                              color: AppColors.appBlue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          value: StairsEnum.ZERO,
-                        ),
-                        DropdownMenuItem<StairsEnum>(
-                          child: Text(
-                            "1-9",
-                            style: TextStyle(
-                              color: AppColors.appBlue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          value: StairsEnum.OneTillNine,
-                        ),
-                        DropdownMenuItem<StairsEnum>(
-                          child: Text(
-                            "10-19",
-                            style: TextStyle(
-                              color: AppColors.appBlue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          value: StairsEnum.TenTillNineteen,
-                        ),
-                        DropdownMenuItem<StairsEnum>(
-                          child: Text(
-                            "20-50",
-                            style: TextStyle(
-                              color: AppColors.appBlue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          value: StairsEnum.TwentyTillFifty,
-                        ),
-                        DropdownMenuItem<StairsEnum>(
-                          child: Text(
-                            "Unlimited ∞",
-                            style: TextStyle(
-                              color: AppColors.appBlue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          value: StairsEnum.Unlimited,
-                        ),
-                      ],
-                      onChanged: (index) {
-                        switch (index) {
-                          case StairsEnum.ZERO:
-                            context.read<UserBloc>().add(
-                              const ChangeStairsEvent(stairs: StairsEnum.ZERO),
-                            );
-                            break;
-                          case StairsEnum.OneTillNine:
-                            context.read<UserBloc>().add(
-                              const ChangeStairsEvent(
-                                stairs: StairsEnum.OneTillNine,
+        child: Padding( 
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+          
+              BlocBuilder<UserBloc, UserState>(
+                builder: (context, state) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Stairs: ",
+                        style: TextStyle(color: AppColors.appBlue, fontSize: 30),
+                      ),
+                      //SizedBox(width: MediaQuery.of(context).size.width * 0.2),
+                      Spacer(),
+                      DropdownButton<StairsEnum>(
+                        value: state.stairs,
+                        items: const [
+                          DropdownMenuItem<StairsEnum>(
+                            child: Text(
+                              "0",
+                              style: TextStyle(
+                                color: AppColors.appBlue,
+                                fontWeight: FontWeight.bold,
                               ),
-                            );
-                            break;
-                          case StairsEnum.TenTillNineteen:
-                            context.read<UserBloc>().add(
-                              const ChangeStairsEvent(
-                                stairs: StairsEnum.TenTillNineteen,
+                            ),
+                            value: StairsEnum.ZERO,
+                          ),
+                          DropdownMenuItem<StairsEnum>(
+                            child: Text(
+                              "1-9",
+                              style: TextStyle(
+                                color: AppColors.appBlue,
+                                fontWeight: FontWeight.bold,
                               ),
-                            );
-                            break;
-                          case StairsEnum.TwentyTillFifty:
-                            context.read<UserBloc>().add(
-                              const ChangeStairsEvent(
-                                stairs: StairsEnum.TwentyTillFifty,
+                            ),
+                            value: StairsEnum.OneTillNine,
+                          ),
+                          DropdownMenuItem<StairsEnum>(
+                            child: Text(
+                              "10-19",
+                              style: TextStyle(
+                                color: AppColors.appBlue,
+                                fontWeight: FontWeight.bold,
                               ),
-                            );
-                            break;
-                          case StairsEnum.Unlimited:
-                            context.read<UserBloc>().add(
-                              const ChangeStairsEvent(
-                                stairs: StairsEnum.Unlimited,
+                            ),
+                            value: StairsEnum.TenTillNineteen,
+                          ),
+                          DropdownMenuItem<StairsEnum>(
+                            child: Text(
+                              "20-50",
+                              style: TextStyle(
+                                color: AppColors.appBlue,
+                                fontWeight: FontWeight.bold,
                               ),
-                            );
-                            break;
-                          default:
-                            break;
-                        }
-                      },
-                    ),
-                  ],
-                );
-              },
-            ),
-
-            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-
-            BlocBuilder<UserBloc, UserState>(
-              builder: (context, state) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Cobblestone: ",
-                      style: TextStyle(color: AppColors.appBlue, fontSize: 30),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.2),
-                    DropdownButton<TerrainEnum>(
-                      value: state.sand,
-                      items: const [
-                        DropdownMenuItem<TerrainEnum>(
-                          child: Text(
-                            "Easy",
-                            style: TextStyle(
-                              color: AppColors.appBlue,
-                              fontWeight: FontWeight.bold,
                             ),
+                            value: StairsEnum.TwentyTillFifty,
                           ),
-                          value: TerrainEnum.EASY,
-                        ),
-                        DropdownMenuItem<TerrainEnum>(
-                          child: Text(
-                            "Medium",
-                            style: TextStyle(
-                              color: AppColors.appBlue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          value: TerrainEnum.MEDIUM,
-                        ),
-                        DropdownMenuItem<TerrainEnum>(
-                          child: Text(
-                            "Hard",
-                            style: TextStyle(
-                              color: AppColors.appBlue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          value: TerrainEnum.HARD,
-                        ),
-                        DropdownMenuItem<TerrainEnum>(
-                          child: Text(
-                            "Impossible",
-                            style: TextStyle(
-                              color: AppColors.appBlue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          value: TerrainEnum.IMPOSSIBLE,
-                        ),
-                      ],
-                      onChanged: (index) {
-                        switch (index) {
-                          case TerrainEnum.EASY:
-                            context.read<UserBloc>().add(
-                              const ChangeSandEvent(sand: TerrainEnum.EASY),
-                            );
-                            break;
-                          case TerrainEnum.MEDIUM:
-                            context.read<UserBloc>().add(
-                              const ChangeSandEvent(sand: TerrainEnum.MEDIUM),
-                            );
-                            break;
-                          case TerrainEnum.HARD:
-                            context.read<UserBloc>().add(
-                              const ChangeSandEvent(sand: TerrainEnum.HARD),
-                            );
-                            break;
-                          case TerrainEnum.IMPOSSIBLE:
-                            context.read<UserBloc>().add(
-                              const ChangeSandEvent(
-                                sand: TerrainEnum.IMPOSSIBLE,
+                          DropdownMenuItem<StairsEnum>(
+                            child: Text(
+                              "Unlimited ∞",
+                              style: TextStyle(
+                                color: AppColors.appBlue,
+                                fontWeight: FontWeight.bold,
                               ),
-                            );
-                            break;
-                          default:
-                            break;
-                        }
-                      },
-                    ),
-                  ],
-                );
-              },
-            ),
-
-            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-
-            BlocBuilder<UserBloc, UserState>(
-              builder: (context, state) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Gravel: ",
-                      style: TextStyle(color: AppColors.appBlue, fontSize: 30),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.2),
-                    DropdownButton<TerrainEnum>(
-                      value: state.gravel,
-                      items: const [
-                        DropdownMenuItem<TerrainEnum>(
-                          child: Text(
-                            "Easy",
-                            style: TextStyle(
-                              color: AppColors.appBlue,
-                              fontWeight: FontWeight.bold,
                             ),
+                            value: StairsEnum.Unlimited,
                           ),
-                          value: TerrainEnum.EASY,
-                        ),
-                        DropdownMenuItem<TerrainEnum>(
-                          child: Text(
-                            "Medium",
-                            style: TextStyle(
-                              color: AppColors.appBlue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          value: TerrainEnum.MEDIUM,
-                        ),
-                        DropdownMenuItem<TerrainEnum>(
-                          child: Text(
-                            "Hard",
-                            style: TextStyle(
-                              color: AppColors.appBlue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          value: TerrainEnum.HARD,
-                        ),
-                        DropdownMenuItem<TerrainEnum>(
-                          child: Text(
-                            "Impossible",
-                            style: TextStyle(
-                              color: AppColors.appBlue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          value: TerrainEnum.IMPOSSIBLE,
-                        ),
-                      ],
-                      onChanged: (index) {
-                        switch (index) {
-                          case TerrainEnum.EASY:
-                            context.read<UserBloc>().add(
-                              const ChangeGravelEvent(gravel: TerrainEnum.EASY),
-                            );
-                            break;
-                          case TerrainEnum.MEDIUM:
-                            context.read<UserBloc>().add(
-                              const ChangeGravelEvent(
-                                gravel: TerrainEnum.MEDIUM,
-                              ),
-                            );
-                            break;
-                          case TerrainEnum.HARD:
-                            context.read<UserBloc>().add(
-                              const ChangeGravelEvent(gravel: TerrainEnum.HARD),
-                            );
-                            break;
-                          case TerrainEnum.IMPOSSIBLE:
-                            context.read<UserBloc>().add(
-                              const ChangeGravelEvent(
-                                gravel: TerrainEnum.IMPOSSIBLE,
-                              ),
-                            );
-                            break;
-                          default:
-                            break;
-                        }
-                      },
-                    ),
-                  ],
-                );
-              },
-            ),
-
-            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     const Text(
-            //       "Language: ",
-            //       style: TextStyle(color: AppColors.appBlue, fontSize: 30),
-            //     ),
-            //     SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-            //     DropdownButton<String>(
-            //       value: selectedLanguage,
-            //       items: const [
-            //         DropdownMenuItem<String>(
-            //           child: Text(
-            //             "English",
-            //             style: TextStyle(
-            //               color: AppColors.appBlue,
-            //               fontWeight: FontWeight.bold,
-            //             ),
-            //           ),
-            //           value: "English",
-            //         ),
-            //         DropdownMenuItem<String>(
-            //           child: Text(
-            //             "Deutsch",
-            //             style: TextStyle(
-            //               color: AppColors.appBlue,
-            //               fontWeight: FontWeight.bold,
-            //             ),
-            //           ),
-            //           value: "German",
-            //         ),
-            //         DropdownMenuItem<String>(
-            //           child: Text(
-            //             "Espanol",
-            //             style: TextStyle(
-            //               color: AppColors.appBlue,
-            //               fontWeight: FontWeight.bold,
-            //             ),
-            //           ),
-            //           value: "Spanish",
-            //         ),
-            //       ],
-            //       onChanged: (index) {
-            //         setState(() {
-            //           switch (index) {
-            //             case "English":
-            //               selectedLanguage = "English";
-            //               break;
-            //             case "German":
-            //               selectedLanguage = "Deutsch";
-            //               break;
-            //             case "Spanish":
-            //               selectedLanguage = "Espanol";
-            //               break;
-            //             default:
-            //               break;
-            //           }
-            //         });
-            //       },
-            //     ),
-            //   ],
-            // ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                //showInfoHouse(0, 0);
-                // showWayInfo(null);
-              },
-              child: const Text("OK", style: TextStyle(color: Colors.white)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.appBlue,
+                        ],
+                        onChanged: (index) {
+                          switch (index) {
+                            case StairsEnum.ZERO:
+                              context.read<UserBloc>().add(
+                                const ChangeStairsEvent(stairs: StairsEnum.ZERO),
+                              );
+                              break;
+                            case StairsEnum.OneTillNine:
+                              context.read<UserBloc>().add(
+                                const ChangeStairsEvent(
+                                  stairs: StairsEnum.OneTillNine,
+                                ),
+                              );
+                              break;
+                            case StairsEnum.TenTillNineteen:
+                              context.read<UserBloc>().add(
+                                const ChangeStairsEvent(
+                                  stairs: StairsEnum.TenTillNineteen,
+                                ),
+                              );
+                              break;
+                            case StairsEnum.TwentyTillFifty:
+                              context.read<UserBloc>().add(
+                                const ChangeStairsEvent(
+                                  stairs: StairsEnum.TwentyTillFifty,
+                                ),
+                              );
+                              break;
+                            case StairsEnum.Unlimited:
+                              context.read<UserBloc>().add(
+                                const ChangeStairsEvent(
+                                  stairs: StairsEnum.Unlimited,
+                                ),
+                              );
+                              break;
+                            default:
+                              break;
+                          }
+                        },
+                      ),
+                    ],
+                  );
+                },
               ),
-            ),
-          ],
+          
+              //SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+             // Spacer(),
+              BlocBuilder<UserBloc, UserState>(
+                builder: (context, state) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Cobblestone: ",
+                        style: TextStyle(color: AppColors.appBlue, fontSize: 30),
+                      ),
+                      //SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+                       Spacer(),
+                      DropdownButton<TerrainEnum>(
+                        value: state.sand,
+                        items: const [
+                          DropdownMenuItem<TerrainEnum>(
+                            child: Text(
+                              "Easy",
+                              style: TextStyle(
+                                color: AppColors.appBlue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            value: TerrainEnum.EASY,
+                          ),
+                          DropdownMenuItem<TerrainEnum>(
+                            child: Text(
+                              "Medium",
+                              style: TextStyle(
+                                color: AppColors.appBlue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            value: TerrainEnum.MEDIUM,
+                          ),
+                          DropdownMenuItem<TerrainEnum>(
+                            child: Text(
+                              "Hard",
+                              style: TextStyle(
+                                color: AppColors.appBlue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            value: TerrainEnum.HARD,
+                          ),
+                          DropdownMenuItem<TerrainEnum>(
+                            child: Text(
+                              "Impossible",
+                              style: TextStyle(
+                                color: AppColors.appBlue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            value: TerrainEnum.IMPOSSIBLE,
+                          ),
+                        ],
+                        onChanged: (index) {
+                          switch (index) {
+                            case TerrainEnum.EASY:
+                              context.read<UserBloc>().add(
+                                const ChangeSandEvent(sand: TerrainEnum.EASY),
+                              );
+                              break;
+                            case TerrainEnum.MEDIUM:
+                              context.read<UserBloc>().add(
+                                const ChangeSandEvent(sand: TerrainEnum.MEDIUM),
+                              );
+                              break;
+                            case TerrainEnum.HARD:
+                              context.read<UserBloc>().add(
+                                const ChangeSandEvent(sand: TerrainEnum.HARD),
+                              );
+                              break;
+                            case TerrainEnum.IMPOSSIBLE:
+                              context.read<UserBloc>().add(
+                                const ChangeSandEvent(
+                                  sand: TerrainEnum.IMPOSSIBLE,
+                                ),
+                              );
+                              break;
+                            default:
+                              break;
+                          }
+                        },
+                      ),
+                    ],
+                  );
+                },
+              ),
+          
+              //SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+              //Spacer(),
+              BlocBuilder<UserBloc, UserState>(
+                builder: (context, state) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Gravel: ",
+                        style: TextStyle(color: AppColors.appBlue, fontSize: 30),
+                      ),
+                       Spacer(),
+                      //SizedBox(width: MediaQuery.of(context).size.width * 0.2),
+                      DropdownButton<TerrainEnum>(
+                        value: state.gravel,
+                        items: const [
+                          DropdownMenuItem<TerrainEnum>(
+                            child: Text(
+                              "Easy",
+                              style: TextStyle(
+                                color: AppColors.appBlue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            value: TerrainEnum.EASY,
+                          ),
+                          DropdownMenuItem<TerrainEnum>(
+                            child: Text(
+                              "Medium",
+                              style: TextStyle(
+                                color: AppColors.appBlue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            value: TerrainEnum.MEDIUM,
+                          ),
+                          DropdownMenuItem<TerrainEnum>(
+                            child: Text(
+                              "Hard",
+                              style: TextStyle(
+                                color: AppColors.appBlue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            value: TerrainEnum.HARD,
+                          ),
+                          DropdownMenuItem<TerrainEnum>(
+                            child: Text(
+                              "Impossible",
+                              style: TextStyle(
+                                color: AppColors.appBlue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            value: TerrainEnum.IMPOSSIBLE,
+                          ),
+                        ],
+                        onChanged: (index) {
+                          switch (index) {
+                            case TerrainEnum.EASY:
+                              context.read<UserBloc>().add(
+                                const ChangeGravelEvent(gravel: TerrainEnum.EASY),
+                              );
+                              break;
+                            case TerrainEnum.MEDIUM:
+                              context.read<UserBloc>().add(
+                                const ChangeGravelEvent(
+                                  gravel: TerrainEnum.MEDIUM,
+                                ),
+                              );
+                              break;
+                            case TerrainEnum.HARD:
+                              context.read<UserBloc>().add(
+                                const ChangeGravelEvent(gravel: TerrainEnum.HARD),
+                              );
+                              break;
+                            case TerrainEnum.IMPOSSIBLE:
+                              context.read<UserBloc>().add(
+                                const ChangeGravelEvent(
+                                  gravel: TerrainEnum.IMPOSSIBLE,
+                                ),
+                              );
+                              break;
+                            default:
+                              break;
+                          }
+                        },
+                      ),
+                    ],
+                  );
+                },
+              ),
+          
+              SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+          
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     const Text(
+              //       "Language: ",
+              //       style: TextStyle(color: AppColors.appBlue, fontSize: 30),
+              //     ),
+              //     SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+              //     DropdownButton<String>(
+              //       value: selectedLanguage,
+              //       items: const [
+              //         DropdownMenuItem<String>(
+              //           child: Text(
+              //             "English",
+              //             style: TextStyle(
+              //               color: AppColors.appBlue,
+              //               fontWeight: FontWeight.bold,
+              //             ),
+              //           ),
+              //           value: "English",
+              //         ),
+              //         DropdownMenuItem<String>(
+              //           child: Text(
+              //             "Deutsch",
+              //             style: TextStyle(
+              //               color: AppColors.appBlue,
+              //               fontWeight: FontWeight.bold,
+              //             ),
+              //           ),
+              //           value: "German",
+              //         ),
+              //         DropdownMenuItem<String>(
+              //           child: Text(
+              //             "Espanol",
+              //             style: TextStyle(
+              //               color: AppColors.appBlue,
+              //               fontWeight: FontWeight.bold,
+              //             ),
+              //           ),
+              //           value: "Spanish",
+              //         ),
+              //       ],
+              //       onChanged: (index) {
+              //         setState(() {
+              //           switch (index) {
+              //             case "English":
+              //               selectedLanguage = "English";
+              //               break;
+              //             case "German":
+              //               selectedLanguage = "Deutsch";
+              //               break;
+              //             case "Spanish":
+              //               selectedLanguage = "Espanol";
+              //               break;
+              //             default:
+              //               break;
+              //           }
+              //         });
+              //       },
+              //     ),
+              //   ],
+              // ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  //showInfoHouse(0, 0);
+                  // showWayInfo(null);
+                },
+                child: const Text("OK", style: TextStyle(color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.appBlue,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

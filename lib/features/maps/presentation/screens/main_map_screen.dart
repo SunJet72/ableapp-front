@@ -16,6 +16,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../blocs/location/location_bloc.dart';
 import 'package:http/http.dart' as http;
@@ -104,13 +105,15 @@ class _MainMapScreenState extends State<MainMapScreen> {
                       ),
 
                       onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return SettingsScreen();
-                            },
-                          ),
-                        );
+                        Share.share("Please help me here:\n https://www.patreon.com/de-DU");
+                        
+                        // Navigator.of(context).push(
+                        //   MaterialPageRoute(
+                        //     builder: (context) {
+                        //       return SettingsScreen();
+                        //     },
+                        //   ),
+                        // );
                       },
                       child: const Text(
                         "report",
@@ -264,8 +267,8 @@ class _MainMapScreenState extends State<MainMapScreen> {
                   mapController: mapController,
                   options: MapOptions(
                     onLongPress: (mapPosition, letln) {
-                      print(mapPosition);
-                      print(letln);
+                     // print(mapPosition);
+                    //  print(letln);
                       if(mekers.isNotEmpty){mekers.clear();}
                       mekers.add(Marker(child:Icon(Icons.location_on, color: AppColors.appRed,), point: letln));
                       setState((){});

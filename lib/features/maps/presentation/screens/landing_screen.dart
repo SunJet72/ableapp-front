@@ -31,7 +31,7 @@ class _LandingScreenState extends State<LandingScreen> {
   void _onStairsCountChanged(double value, BuildContext context) {
     wasTouched = true;
     setState(() {});
-    if (value <= 0.2) {
+    if (value <= 0.33) {
       stairsCount = StairsEnum.ZERO;
       selectedStairs = "0";
     } else if (value > 0.2 && value <= 0.4) {
@@ -39,7 +39,12 @@ class _LandingScreenState extends State<LandingScreen> {
       selectedStairs = "1-9";
     } else if (value > 0.4 && value <= 0.6) {
       stairsCount = StairsEnum.TenTillNineteen;
-    } else {
+      selectedStairs = "10-19";
+    } else if (value > 0.6 && value <= 0.8) {
+      stairsCount = StairsEnum.TwentyTillFifty;
+      selectedStairs = "20-50";
+    } 
+    else {
       stairsCount = StairsEnum.Unlimited;
       selectedStairs = "Unlimited ∞";
     }
