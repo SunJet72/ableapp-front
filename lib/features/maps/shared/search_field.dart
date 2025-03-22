@@ -1,4 +1,5 @@
 import 'package:able_app/config/constants/app_colors.dart';
+import 'package:able_app/features/maps/shared/settings_screen.dart';
 import 'package:flutter/material.dart';
 
 class SearchField extends StatefulWidget {
@@ -49,16 +50,24 @@ class _SearchFieldState extends State<SearchField> {
                       },
                     ),
                   ),
-                  
                 ],
               ),
             ),
           ),
-         
-              SizedBox( height: MediaQuery.of(context).size.height * 0.08, child: ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-               
-              onPressed: (){}, child: const Icon(Icons.settings, color: AppColors.appBlue,),)),
-          
+
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.08,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                  return SettingsScreen();
+                }));
+              },
+              child: const Icon(Icons.settings, color: AppColors.appBlue),
+            ),
+          ),
         ],
       ),
     );
