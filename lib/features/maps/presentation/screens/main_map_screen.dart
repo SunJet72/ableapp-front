@@ -39,8 +39,8 @@ class _MainMapScreenState extends State<MainMapScreen> {
 
 
   void showInfoHouse1(double len, double lon) async {
-    len = 50.935429;
-    lon = 11.578313;
+    len = len;
+    lon = lon;
     int counter = 20;
 
     String ur =
