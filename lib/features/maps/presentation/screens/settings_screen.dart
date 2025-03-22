@@ -1,9 +1,12 @@
 import 'package:able_app/config/constants/app_colors.dart';
 import 'package:able_app/config/enums/stairs_enum.dart';
 import 'package:able_app/config/enums/terrain_enum.dart';
+import 'package:able_app/features/maps/domain/entities/way.dart';
 import 'package:able_app/features/maps/presentation/blocs/user/user_bloc.dart';
+import 'package:able_app/features/maps/presentation/shared/progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -24,81 +27,165 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String selectedGravel = "?";
   String selectedLanguage = "English";
 
-  int getCount(){
+  void showWayInfo(Way way) async {
+    var points = way.paths[way.paths.length - 1].points;
+    LatLng name = points[points.length - 1];
+    double len = name.latitude;
+    double lon = name.longitude;
+    String adress = "";
+
+    String ur =
+        "https://nominatim.openstreetmap.org/reverse?format=json&lat=${len}&lon=${lon}";
+    Uri uri = Uri.parse(ur);
+    try {
+      final response = await http.get(
+        uri,
+        headers: {
+          'User-Agent': 'Sigma', // Nominatim требует User-Agent
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        print("data: ${data['display_name']}");
+        adress = data['display_name'];
+      } else {
+        print('Ошибка запроса: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Ошибка при получении адреса: $e');
+      return null;
+    }
+
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          color: Colors.white,
+          height: MediaQuery.of(context).size.height * 0.4,
+          child: Column(
+            children: [Text(adress), Text( way.duration.toString()),
+            Text(way.distance.toString()),
+            ProgressBar(way)],
+            
+          ),
+        );
+      },
+    );
+  }
+
+  int getCount() {
     return 42;
   }
 
+  void showInfoHouse(double len, double lon) async {
+    len = 50.935429;
+    lon = 11.578313;
+    int counter = getCount();
 
-  void showInfoHouse(double len, double lon)async{
-    len=50.935429;
-    lon=11.578313;
-    int counter=getCount();
-
-    String ur ="https://nominatim.openstreetmap.org/reverse?format=json&lat=${len}&lon=${lon}";
+    String ur =
+        "https://nominatim.openstreetmap.org/reverse?format=json&lat=${len}&lon=${lon}";
     Uri uri = Uri.parse(ur);
-     try {
-    final response = await http.get(uri, headers: {
-      'User-Agent': 'Sigma' // Nominatim требует User-Agent
-    });
+    try {
+      final response = await http.get(
+        uri,
+        headers: {
+          'User-Agent': 'Sigma', // Nominatim требует User-Agent
+        },
+      );
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      print("data: ${data['display_name']}");
-      showDialog(context:context,builder: (context){
-        return Center(child: Container(color: Colors.white, height:MediaQuery.of(context).size.height*0.4,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              
-              SizedBox(height: MediaQuery.of(context).size.height*0.01,),
-              Text(textAlign: TextAlign.center, data['display_name'], style: TextStyle(color: AppColors.appBlue, fontSize: 15),),
-              SizedBox(height: MediaQuery.of(context).size.height*0.1,),
-              Text(textAlign: TextAlign.center, "Would you report for a problem?", style: TextStyle(color: AppColors.appBlue, fontSize: 15),),
-              Text(textAlign: TextAlign.center, "Press \"Share\" to start a contribution!", style: TextStyle(color: AppColors.appBlue, fontSize: 15),),
-              
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        print("data: ${data['display_name']}");
+        showDialog(
+          context: context,
+          builder: (context) {
+            return Center(
+              child: Container(
+                color: Colors.white,
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                    Text(
+                      textAlign: TextAlign.center,
+                      data['display_name'],
+                      style: TextStyle(color: AppColors.appBlue, fontSize: 15),
+                    ),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                    Text(
+                      textAlign: TextAlign.center,
+                      "Would you report for a problem?",
+                      style: TextStyle(color: AppColors.appBlue, fontSize: 15),
+                    ),
+                    Text(
+                      textAlign: TextAlign.center,
+                      "Press \"Share\" to start a contribution!",
+                      style: TextStyle(color: AppColors.appBlue, fontSize: 15),
+                    ),
 
-              SizedBox(height: MediaQuery.of(context).size.height*0.05,),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.05),
 
-              counter>=10? Text(textAlign: TextAlign.center, "This place was reported ${counter} times", style: TextStyle(color: AppColors.appRed, fontSize: 10),): SizedBox(),
+                    counter >= 10
+                        ? Text(
+                          textAlign: TextAlign.center,
+                          "This place was reported ${counter} times",
+                          style: TextStyle(
+                            color: AppColors.appRed,
+                            fontSize: 10,
+                          ),
+                        )
+                        : SizedBox(),
 
-              ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                      ),
 
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                  return SettingsScreen();
-                }));
-              },
-              child: const Text("report", style: TextStyle(color: AppColors.appBlue, fontSize: 20),),
-            ),
-            ],
-          ),
-        ));
-      });
-      return data['display_name'];
-    } else {
-      print('Ошибка запроса: ${response.statusCode}');
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return SettingsScreen();
+                            },
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        "report",
+                        style: TextStyle(
+                          color: AppColors.appBlue,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+        return data['display_name'];
+      } else {
+        print('Ошибка запроса: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Ошибка при получении адреса: $e');
       return null;
     }
-  } catch (e) {
-    print('Ошибка при получении адреса: $e');
-    return null;
   }
 
-
+  void _callPhoneNumber(String number) async {
+    final Uri url = Uri(scheme: 'tel', path: number);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
-
-
-
-void _callPhoneNumber(String number) async {
-  final Uri url = Uri(scheme: 'tel', path: number);
-  if (await canLaunchUrl(url)) {
-    await launchUrl(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -115,18 +202,15 @@ void _callPhoneNumber(String number) async {
             ),
             Spacer(),
             ElevatedButton(
-                    onPressed: () {
-                    print("mama");
-                   _callPhoneNumber("+4917636089141");
-                    },
-                    child: const Text(
-                      "SOS",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.appRed,
-                    ),
-                  ),
+              onPressed: () {
+                print("mama");
+                _callPhoneNumber("+4917636089141");
+              },
+              child: const Text("SOS", style: TextStyle(color: Colors.white)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.appRed,
+              ),
+            ),
           ],
         ),
       ),
@@ -492,8 +576,9 @@ void _callPhoneNumber(String number) async {
             // ),
             ElevatedButton(
               onPressed: () {
-               // Navigator.of(context).pop();
-               showInfoHouse(0, 0);
+                Navigator.of(context).pop();
+                //showInfoHouse(0, 0);
+                // showWayInfo(null);
               },
               child: const Text("OK", style: TextStyle(color: Colors.white)),
               style: ElevatedButton.styleFrom(
