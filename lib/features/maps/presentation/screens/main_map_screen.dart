@@ -66,7 +66,7 @@ class _MainMapScreenState extends State<MainMapScreen> {
   void showInfoHouse1(double len, double lon) async {
     len = 50.935429;
     lon = 11.578313;
-    int counter = 42;
+    int counter = 20;
 
     String ur =
         "https://nominatim.openstreetmap.org/reverse?format=json&lat=${len}&lon=${lon}";
@@ -161,7 +161,7 @@ class _MainMapScreenState extends State<MainMapScreen> {
       return null;
     }
   }
-
+  List<Marker> mekers=[];
 
 
    void showInfoHouse(double len, double lon) async {
@@ -291,7 +291,12 @@ class _MainMapScreenState extends State<MainMapScreen> {
                     onLongPress: (mapPosition, letln) {
                       print(mapPosition);
                       print(letln);
+                      if(mekers.isNotEmpty){mekers.clear();}
+                      mekers.add(Marker(child:Icon(Icons.location_on, color: AppColors.appRed,), point: letln));
+                      setState((){});
                       showInfoHouse1(letln.latitude, letln.longitude);
+                      
+                      //Navigator.of(context).pop();
                     },
                     initialZoom: 17,
                     // initialCenter: state.location,
@@ -301,11 +306,13 @@ class _MainMapScreenState extends State<MainMapScreen> {
                     ),
                   ),
                   children: [
+                    
                     TileLayer(
                       urlTemplate:
                           'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                       userAgentPackageName: 'dev.fleaflet.flutter_map.example',
                     ),
+                    
                     BlocBuilder<RouteBloc, RouteState>(
                       builder: (context, state) {
                         print(state);
@@ -327,6 +334,11 @@ class _MainMapScreenState extends State<MainMapScreen> {
                           return const SizedBox.shrink();
                         }
                       },
+                    ),
+                    MarkerLayer(
+                      markers: [
+                       ...mekers
+                      ],
                     ),
                     const CurrentLocationLayer(),
                   ],

@@ -336,7 +336,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "Sand: ",
+                      "Cobblestone: ",
                       style: TextStyle(color: AppColors.appBlue, fontSize: 30),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.2),
@@ -576,8 +576,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // ),
             ElevatedButton(
               onPressed: () {
-                //Navigator.of(context).pop();
-                showInfoHouse(0, 0);
+                Navigator.of(context).pop();
+                //showInfoHouse(0, 0);
                 // showWayInfo(null);
               },
               child: const Text("OK", style: TextStyle(color: Colors.white)),
