@@ -18,6 +18,7 @@ void main() async{
   final bindings = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: bindings);
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  DependencyInjection.injectDependencies();
   runApp(const AbleApp());
 }
 

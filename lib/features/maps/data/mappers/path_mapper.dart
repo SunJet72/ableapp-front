@@ -1,4 +1,5 @@
 import 'package:able_app/config/enums/terrain_enum.dart';
+import 'package:able_app/config/enums/terrain_type.dart';
 import 'package:able_app/features/maps/data/models/path_model.dart';
 
 import '../../domain/entities/path.dart';
@@ -10,7 +11,7 @@ class PathMapper {
     return Path(
       points: model.points,
       duration: Duration(milliseconds: model.duration),
-      terrain: TerrainEnum.values[model.terrain],
+      terrain: TerrainType.values[model.terrain],
     );
   }
 
