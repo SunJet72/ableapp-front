@@ -35,32 +35,7 @@ class _MainMapScreenState extends State<MainMapScreen> {
 
 
   
-  void showWayInfo(Way way) async {
-    var points = way.paths[way.paths.length - 1].points;
-    LatLng name = points[points.length - 1];
-    double len = name.latitude;
-    double lon = name.longitude;
-    String adress = "";
 
-    // String ur =
-    //     "https://nominatim.openstreetmap.org/reverse?format=json&lat=${len}&lon=${lon}";
-    // Uri uri = Uri.parse(ur);
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Container(
-          color: Colors.white,
-          height: MediaQuery.of(context).size.height * 0.4,
-          child: Column(
-            children: [Text(adress), Text( way.duration.toString()),
-            Text(way.distance.toString()),
-            ProgressBar(way)],
-            
-          ),
-        );
-      },
-    );
-  }
 
 
 
@@ -206,11 +181,9 @@ class _MainMapScreenState extends State<MainMapScreen> {
                         print(state);
 
                         if (state is RouteLoaded) {
-                          print(state.way.paths);
                           return PolylineLayer(
                             polylines: [
                               for (final route in state.way.paths)
-
                                 Polyline(
                                   points: route.points,
                                   strokeWidth: 4,

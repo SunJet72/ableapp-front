@@ -15,7 +15,7 @@ class RouteRepositoryImpl implements RouteRepository {
 
   const RouteRepositoryImpl({required this.client});
 
-  static const String _baseUrl = 'https://ableapp.sunjet-project.de/api/route';
+  static const String _baseUrl = 'https://ableapp.sunjet-project.de';
   final String _routePath = '$_baseUrl/api/route';
 
   @override
@@ -38,6 +38,7 @@ class RouteRepositoryImpl implements RouteRepository {
         'end': {'lat': end.latitude, 'lon': end.longitude},
       }),
     );
+    print(response.request?.url);
     print(jsonEncode({
       'sendState': sandState.index,
       'stairsCount': stairsCount.index,

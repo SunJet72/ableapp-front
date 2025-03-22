@@ -31,15 +31,7 @@ class AbleApp extends StatelessWidget {
     FlutterNativeSplash.remove();
     return MultiBlocProvider(
       providers: [
-        BlocProvider<RouteBloc>(create: (context) => RouteBloc()..add(
-          const BuildRouteEvent(
-            stairs: StairsEnum.ZERO,
-            gravel: TerrainEnum.EASY,
-            sand: TerrainEnum.MEDIUM,
-            end: LatLng(50.935429, 11.578313),
-            start: LatLng(50.93675, 11.578971),
-          ),
-        )),
+        BlocProvider<RouteBloc>(create: (context) => RouteBloc()),
         BlocProvider<UserBloc>(create: (context) => UserBloc()),
         BlocProvider<LocationBloc>(
           create:

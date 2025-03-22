@@ -35,7 +35,7 @@ class RouteBloc extends Bloc<RouteEvent, RouteState> {
       gravelState: event.gravel,
       stairsCount: event.stairs,
     );
-
+    print(state.runtimeType);
     final response = await BuildRouteUsecase(repository: _routeRepository)(
       param: param,
     );
