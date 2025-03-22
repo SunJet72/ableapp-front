@@ -80,7 +80,6 @@ class _MainMapScreenState extends State<MainMapScreen> {
 
                         if (state is RouteLoaded) {
                           print(state.way.paths);
-                          
                           return PolylineLayer(
                             polylines: [
                               for (final route in state.way.paths)
@@ -88,7 +87,7 @@ class _MainMapScreenState extends State<MainMapScreen> {
                                 Polyline(
                                   points: route.points,
                                   strokeWidth: 4,
-                                  color:  Color(route.hashCode),
+                                  color:  Colors.black,
                                 ),
                             ],
                           );
