@@ -55,6 +55,9 @@ class _MainMapScreenState extends State<MainMapScreen> {
                   options: MapOptions(
                     initialZoom: 12,
                     initialCenter: state.location,
+                    interactionOptions: const InteractionOptions(
+                      flags: ~InteractiveFlag.doubleTapZoom,
+                    ),
                   ),
                   children: [
                     TileLayer(
@@ -62,6 +65,7 @@ class _MainMapScreenState extends State<MainMapScreen> {
                           'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                       userAgentPackageName: 'dev.fleaflet.flutter_map.example',
                     ),
+                    PolylineLayer(polylines: [Polyline(points: [])]),
                     const CurrentLocationLayer(),
                   ],
                 ),
@@ -69,7 +73,6 @@ class _MainMapScreenState extends State<MainMapScreen> {
                   children: [
                     SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                     SearchField(formatKey),
-                    
                   ],
                 ),
               ],
