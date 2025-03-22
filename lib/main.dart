@@ -1,4 +1,5 @@
 import 'package:able_app/features/maps/presentation/screens/landing_screen.dart';
+import 'package:able_app/features/maps/presentation/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,8 +35,8 @@ class AbleApp extends StatelessWidget {
         themeMode: ThemeMode.light,
         theme: AppTheme.light,
       // home:  MainMapScreen(),
-       //home:  SettingsScreen(),
-        home:  const LandingScreen(),
+       home:  SettingsScreen(),
+       // home:  const LandingScreen(),
       ),
     );
   }
