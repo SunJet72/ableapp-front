@@ -2,6 +2,7 @@ import 'package:able_app/core/injection/dependency_injection.dart';
 import 'package:able_app/features/maps/presentation/blocs/route/route_bloc.dart';
 import 'package:able_app/features/maps/presentation/screens/landing_screen.dart';
 import 'package:able_app/features/maps/presentation/screens/main_map_screen.dart';
+import 'package:able_app/features/maps/presentation/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,9 +50,9 @@ class AbleApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         themeMode: ThemeMode.light,
         theme: AppTheme.light,
-      // home:  MainMapScreen(),
-       //home:  SettingsScreen(),
-        home:  const LandingScreen(),
+       //home:  MainMapScreen(),
+       home:  SettingsScreen(),
+        //home:  const LandingScreen(),
       ),
     );
   }

@@ -4,6 +4,9 @@ import 'package:able_app/config/enums/terrain_enum.dart';
 import 'package:able_app/features/maps/presentation/blocs/user/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -20,6 +23,82 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String selectedSand = "?";
   String selectedGravel = "?";
   String selectedLanguage = "English";
+
+  int getCount(){
+    return 42;
+  }
+
+
+  void showInfoHouse(double len, double lon)async{
+    len=50.935429;
+    lon=11.578313;
+    int counter=getCount();
+
+    String ur ="https://nominatim.openstreetmap.org/reverse?format=json&lat=${len}&lon=${lon}";
+    Uri uri = Uri.parse(ur);
+     try {
+    final response = await http.get(uri, headers: {
+      'User-Agent': 'Sigma' // Nominatim требует User-Agent
+    });
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      print("data: ${data['display_name']}");
+      showDialog(context:context,builder: (context){
+        return Center(child: Container(color: Colors.white, height:MediaQuery.of(context).size.height*0.4,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              
+              SizedBox(height: MediaQuery.of(context).size.height*0.01,),
+              Text(textAlign: TextAlign.center, data['display_name'], style: TextStyle(color: AppColors.appBlue, fontSize: 15),),
+              SizedBox(height: MediaQuery.of(context).size.height*0.1,),
+              Text(textAlign: TextAlign.center, "Would you report for a problem?", style: TextStyle(color: AppColors.appBlue, fontSize: 15),),
+              Text(textAlign: TextAlign.center, "Press \"Share\" to start a contribution!", style: TextStyle(color: AppColors.appBlue, fontSize: 15),),
+              
+
+              SizedBox(height: MediaQuery.of(context).size.height*0.05,),
+
+              counter>=10? Text(textAlign: TextAlign.center, "This place was reported ${counter} times", style: TextStyle(color: AppColors.appRed, fontSize: 10),): SizedBox(),
+
+              ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                  return SettingsScreen();
+                }));
+              },
+              child: const Text("report", style: TextStyle(color: AppColors.appBlue, fontSize: 20),),
+            ),
+            ],
+          ),
+        ));
+      });
+      return data['display_name'];
+    } else {
+      print('Ошибка запроса: ${response.statusCode}');
+      return null;
+    }
+  } catch (e) {
+    print('Ошибка при получении адреса: $e');
+    return null;
+  }
+
+
+  }
+
+
+
+void _callPhoneNumber(String number) async {
+  final Uri url = Uri(scheme: 'tel', path: number);
+  if (await canLaunchUrl(url)) {
+    await launchUrl(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +117,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ElevatedButton(
                     onPressed: () {
                     print("mama");
+                   _callPhoneNumber("+4917636089141");
                     },
                     child: const Text(
                       "SOS",
@@ -412,7 +492,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
             // ),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop();
+               // Navigator.of(context).pop();
+               showInfoHouse(0, 0);
               },
               child: const Text("OK", style: TextStyle(color: Colors.white)),
               style: ElevatedButton.styleFrom(
