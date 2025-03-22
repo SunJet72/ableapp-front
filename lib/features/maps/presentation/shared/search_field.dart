@@ -58,13 +58,14 @@ class _SearchFieldState extends State<SearchField> {
                               end: const LatLng(50.936535, 11.579461),
                             ),
                           );
+                          FocusScope.of(context).unfocus();
                           final way =
                               context.read<RouteBloc>().state as RouteLoaded;
                           showWayInfo(way.way);
                         } else {}
                       },
                       decoration: InputDecoration(
-                        icon: Icon(Icons.search, color: AppColors.appBlue),
+                        icon: const Icon(Icons.search, color: AppColors.appBlue),
                         border: InputBorder.none,
                         labelStyle: const TextStyle(color: AppColors.appBlue),
                         labelText: widget.withButton ? 'From' : 'To',
@@ -94,7 +95,7 @@ class _SearchFieldState extends State<SearchField> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {
-                          return SettingsScreen();
+                          return const SettingsScreen();
                         },
                       ),
                     );
@@ -109,6 +110,7 @@ class _SearchFieldState extends State<SearchField> {
   }
 
   void showWayInfo(Way way) async {
+    print("sigma");
     var points = way.paths[way.paths.length - 1].points;
     LatLng name = points[points.length - 1];
     double len = name.latitude;
@@ -118,19 +120,49 @@ class _SearchFieldState extends State<SearchField> {
     // String ur =
     //     "https://nominatim.openstreetmap.org/reverse?format=json&lat=${len}&lon=${lon}";
     // Uri uri = Uri.parse(ur);
+    // try {
+    //   final response = await http.get(
+    //     uri,
+    //     headers: {
+    //       'User-Agent': 'Sigma', // Nominatim требует User-Agent
+    //     },
+    //   );
+
+    //   if (response.statusCode == 200) {
+    //     final data = json.decode(response.body);
+    //     print("data: ${data['display_name']}");
+    //     adress = data['display_name'];
+    //   } else {
+    //     print('Ошибка запроса: ${response.statusCode}');
+    //     return null;
+    //   }
+    // } catch (e) {
+    //   print('Ошибка при получении адреса: $e');
+    //   return null;
+    // }
     showModalBottomSheet(
       context: context,
       builder: (context) {
         return Container(
+          width: MediaQuery.of(context).size.width,
           color: Colors.white,
           height: MediaQuery.of(context).size.height * 0.4,
           child: Column(
             children: [
               Text(adress),
-              Text(way.duration.toString()),
-              Text(way.distance.toString()),
-              ProgressBar(way),
-            ],
+              Row(
+                children: [
+                  SizedBox(width:MediaQuery.of(context).size.width*0.3 ),
+                  const Icon(Icons.timer, color: AppColors.appBlue,),
+                  Text( "${(way.duration /1000)}s", style: const TextStyle(color: AppColors.appBlue),),
+
+                  SizedBox(width:MediaQuery.of(context).size.width*0.1 ),
+                  const Icon(Icons.location_on, color: AppColors.appBlue), Text(way.distance.toString()),
+                ],
+              ),
+
+              ProgressBar(way)],
+
           ),
         );
       },
