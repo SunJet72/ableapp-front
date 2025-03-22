@@ -50,8 +50,8 @@ class AbleApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         themeMode: ThemeMode.light,
         theme: AppTheme.light,
-       //home:  MainMapScreen(),
-       home:  SettingsScreen(),
+       home:  MainMapScreen(),
+       // home:  SettingsScreen(),
         //home:  const LandingScreen(),
       ),
     );

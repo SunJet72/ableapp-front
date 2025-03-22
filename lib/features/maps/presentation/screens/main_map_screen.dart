@@ -5,6 +5,7 @@ import 'package:able_app/config/constants/app_colors.dart';
 import 'package:able_app/config/enums/stairs_enum.dart';
 import 'package:able_app/config/enums/terrain_enum.dart';
 import 'package:able_app/features/maps/presentation/blocs/route/route_bloc.dart';
+import 'package:able_app/features/maps/presentation/blocs/user/user_bloc.dart';
 import 'package:able_app/features/maps/presentation/shared/search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,7 +29,6 @@ class _MainMapScreenState extends State<MainMapScreen> {
   LatLng? currentLocation;
   final formatKey = GlobalKey<FormState>();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +50,6 @@ class _MainMapScreenState extends State<MainMapScreen> {
               ),
             );
           }
-          
         },
         builder: (context, state) {
           if (state is LocationLoading) {
@@ -58,51 +57,71 @@ class _MainMapScreenState extends State<MainMapScreen> {
           } else if (state is LocationLoaded) {
             return Stack(
               children: [
-                FlutterMap(
-                  mapController: mapController,
-                  options: MapOptions(
-                    initialZoom: 12,
-                    // initialCenter: state.location,
-                    initialCenter: LatLng(50.935429, 11.578313),
-                    interactionOptions: const InteractionOptions(
-                      flags: ~InteractiveFlag.doubleTapZoom,
-                    ),
-                  ),
-                  children: [
-                    TileLayer(
-                      urlTemplate:
-                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                      userAgentPackageName: 'dev.fleaflet.flutter_map.example',
-                    ),
-                    BlocBuilder<RouteBloc, RouteState>(
-                      builder: (context, state) {
-                        print(state);
-
-                        if (state is RouteLoaded) {
-                          print(state.way.paths);
-                          return PolylineLayer(
-                            polylines: [
-                              for (final route in state.way.paths)
-
-                                Polyline(
-                                  points: route.points,
-                                  strokeWidth: 4,
-                                  color:  Colors.black,
-                                ),
-                            ],
+                BlocBuilder<UserBloc, UserState>(
+                  builder: (context, state) {
+                    final userInfo = state;
+                    final location = context.watch<LocationBloc>().state as LocationLoaded;
+                    return FlutterMap(
+                      mapController: mapController,
+                      options: MapOptions(
+                        onTap: (position, point) {
+                          context.read<RouteBloc>().add(
+                            BuildRouteEvent(
+                              stairs: userInfo.stairs,
+                              gravel: userInfo.gravel,
+                              sand: userInfo.sand,
+                              start: location.location,
+                              end: point,
+                            ),
                           );
-                        } else {
-                          return const SizedBox.shrink();
-                        }
-                      },
-                    ),
-                    const CurrentLocationLayer(),
-                  ],
+                        },
+                        initialZoom: 12,
+                        initialCenter: location.location,
+                        interactionOptions: const InteractionOptions(
+                          flags: ~InteractiveFlag.doubleTapZoom,
+                        ),
+                      ),
+                      children: [
+                        TileLayer(
+                          urlTemplate:
+                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                          userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+                        ),
+                        BlocBuilder<RouteBloc, RouteState>(
+                          builder: (context, state) {
+                            print(state);
+                            if (state is RouteLoaded) {
+                              return PolylineLayer(
+                                polylines: [
+                                  for (final route in state.way.paths)
+                                    Polyline(
+                                      points: route.points,
+                                      strokeWidth: 4,
+                                      color: Colors.black,
+                                    ),
+                                ],
+                              );
+                            } else {
+                              return const SizedBox.shrink();
+                            }
+                          },
+                        ),
+                        const CurrentLocationLayer(),
+                      ],
+                    );
+                  },
                 ),
                 Column(
                   children: [
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-                    SearchField(formatKey),
+                    SizedBox(height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.05),
+                    SearchField(
+                      onLocationSelected: (LatLng newLocation) {
+                        mapController.move(newLocation, 14);
+                      },
+                    ),
                   ],
                 ),
               ],

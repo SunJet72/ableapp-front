@@ -38,6 +38,13 @@ class RouteRepositoryImpl implements RouteRepository {
         'end': {'lat': end.latitude, 'lon': end.longitude},
       }),
     );
+    print(jsonEncode({
+      'sendState': sandState.index,
+      'stairsCount': stairsCount.index,
+      'gravelState': gravelState.index,
+      'start': {'lat': start.latitude, 'lon': start.longitude},
+      'end': {'lat': end.latitude, 'lon': end.longitude},
+    }),);
     print(response.statusCode);
     if (response.statusCode == 200) {
       return DataSuccess<Way>(

@@ -1,75 +1,90 @@
-import 'package:able_app/config/constants/app_colors.dart';
-import 'package:able_app/features/maps/presentation/screens/settings_screen.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:latlong2/latlong.dart';
 
 class SearchField extends StatefulWidget {
-  SearchField(GlobalKey? key1) {
-    this.formatKey = key1 ?? GlobalKey();
-  }
+  final Function(LatLng)? onLocationSelected;
 
-  late GlobalKey formatKey;
+  SearchField({Key? key, this.onLocationSelected}) : super(key: key);
 
   @override
   State<SearchField> createState() => _SearchFieldState();
 }
 
 class _SearchFieldState extends State<SearchField> {
+  final TextEditingController _controller = TextEditingController();
+  List<Map<String, dynamic>> _suggestions = [];
+
+  Future<void> _fetchSuggestions(String query) async {
+    if (query.length < 3) return; // Начинаем поиск только после 3 символов
+
+    final url = Uri.parse(
+        "https://nominatim.openstreetmap.org/search?format=json&q=$query&addressdetails=1");
+
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        setState(() {
+          _suggestions = data
+              .map((item) => {
+            "display_name": item["display_name"],
+            "lat": double.parse(item["lat"]),
+            "lon": double.parse(item["lon"]),
+          })
+              .toList();
+        });
+      }
+    } catch (e) {
+      print("Ошибка поиска: $e");
+    }
+  }
+
+  void _selectLocation(Map<String, dynamic> location) {
+    double lat = location["lat"];
+    double lon = location["lon"];
+
+    LatLng newLocation = LatLng(lat, lon);
+    widget.onLocationSelected?.call(newLocation);
+
+    setState(() {
+      _controller.text = location["display_name"];
+      _suggestions.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: widget.formatKey,
-      child: Row(
-        children: [
-          SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-          Card(
+    return Column(
+      children: [
+        TextFormField(
+          controller: _controller,
+          decoration: InputDecoration(
+            prefixIcon: Icon(Icons.search),
+            hintText: "Search for a location",
+          ),
+          onChanged: _fetchSuggestions,
+        ),
+        if (_suggestions.isNotEmpty)
+          Container(
             color: Colors.white,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.3, // Ограничиваем высоту
             ),
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.08,
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: Row(
-                children: [
-                  SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.search, color: AppColors.appBlue),
-
-                        border: InputBorder.none,
-                        labelStyle: TextStyle(color: AppColors.appBlue),
-                        labelText: 'Search',
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.08,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                  return SettingsScreen();
-                }));
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: _suggestions.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(_suggestions[index]["display_name"]),
+                  onTap: () => _selectLocation(_suggestions[index]),
+                );
               },
-              child: const Icon(Icons.settings, color: AppColors.appBlue),
             ),
           ),
-        ],
-      ),
+      ],
     );
   }
 }

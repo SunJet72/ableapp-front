@@ -4,6 +4,8 @@ PODS:
     - Flutter
   - flutter_rotation_sensor (0.0.1):
     - Flutter
+  - geocoding_ios (1.0.5):
+    - Flutter
   - geolocator_apple (1.2.0):
     - Flutter
     - FlutterMacOS
@@ -11,14 +13,18 @@ PODS:
     - Flutter
   - native_device_orientation (0.0.1):
     - Flutter
+  - url_launcher_ios (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - flutter_rotation_sensor (from `.symlinks/plugins/flutter_rotation_sensor/ios`)
+  - geocoding_ios (from `.symlinks/plugins/geocoding_ios/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/darwin`)
   - location (from `.symlinks/plugins/location/ios`)
   - native_device_orientation (from `.symlinks/plugins/native_device_orientation/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
@@ -27,20 +33,26 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
   flutter_rotation_sensor:
     :path: ".symlinks/plugins/flutter_rotation_sensor/ios"
+  geocoding_ios:
+    :path: ".symlinks/plugins/geocoding_ios/ios"
   geolocator_apple:
     :path: ".symlinks/plugins/geolocator_apple/darwin"
   location:
     :path: ".symlinks/plugins/location/ios"
   native_device_orientation:
     :path: ".symlinks/plugins/native_device_orientation/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_native_splash: df59bb2e1421aa0282cb2e95618af4dcb0c56c29
   flutter_rotation_sensor: f37d8d24050572029bdd2d55a93e0f334e2eeac6
+  geocoding_ios: d7460f56e80e118d57678efe5c2cdc888739ff18
   geolocator_apple: 66b711889fd333205763b83c9dcf0a57a28c7afd
   location: d5cf8598915965547c3f36761ae9cc4f4e87d22e
   native_device_orientation: 348b10c346a60ebbc62fb235a4fdb5d1b61a8f55
+  url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
 
 PODFILE CHECKSUM: 4305caec6b40dde0ae97be1573c53de1882a07e5
 
