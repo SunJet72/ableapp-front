@@ -224,22 +224,26 @@ class _LandingScreenState extends State<LandingScreen> {
             "way!",
             style: TextStyle(color: AppColors.appBlue, fontSize: 30),
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
-          ),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.1),
           ElevatedButton(
             onPressed: () {
-               Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                return MainMapScreen();
-              }));
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return MainMapScreen();
+                  },
+                ),
+              );
             },
-            child: const Text("To the app",
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.appBlue,
+            child: const Text(
+              "To the app",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          )
+            style: ElevatedButton.styleFrom(backgroundColor: AppColors.appBlue),
+          ),
         ];
         break;
     }
@@ -251,19 +255,22 @@ class _LandingScreenState extends State<LandingScreen> {
         ...question,
         Opacity(
           opacity: wasTouched ? 1 : 0.4,
-          child: questionCounter == 3
-              ? const SizedBox()
-              : ElevatedButton(
-                  onPressed: () {
-                    if (!wasTouched) return;
-                    nextQuestion();
-                  },
-                  child: const Text("OK",
-                      style: TextStyle(color: Colors.white)),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.appBlue,
+          child:
+              questionCounter == 3
+                  ? const SizedBox()
+                  : ElevatedButton(
+                    onPressed: () {
+                      if (!wasTouched) return;
+                      nextQuestion();
+                    },
+                    child: const Text(
+                      "OK",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.appBlue,
+                    ),
                   ),
-                ),
         ),
       ],
     );
@@ -292,10 +299,7 @@ class _LandingScreenState extends State<LandingScreen> {
 
             return SlideTransition(
               position: offsetAnimation,
-              child: FadeTransition(
-                opacity: animation,
-                child: child,
-              ),
+              child: FadeTransition(opacity: animation, child: child),
             );
           },
           child: buildQuestionContent(),
