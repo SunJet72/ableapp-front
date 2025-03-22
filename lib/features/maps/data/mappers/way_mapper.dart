@@ -7,6 +7,7 @@ class WayMapper {
 
   static Way toEntity(WayModel model) {
     return Way(
+      duration: model.duration,
       paths:
           model.paths.map((e) => PathMapper.toEntity(e)).toList(),
       distance: model.distance,
@@ -15,6 +16,7 @@ class WayMapper {
 
   static WayModel toModel(Way entity) {
     return WayModel(
+      duration: entity.duration,
       paths: entity.paths.map((e) => PathMapper.toModel(e)).toList(),
       distance: entity.distance,
     );
