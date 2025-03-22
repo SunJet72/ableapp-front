@@ -1,10 +1,15 @@
+import 'package:able_app/core/injection/dependency_injection.dart';
+import 'package:able_app/features/maps/presentation/blocs/route/route_bloc.dart';
 import 'package:able_app/features/maps/presentation/screens/landing_screen.dart';
-import 'package:able_app/features/maps/presentation/screens/settings_screen.dart';
+import 'package:able_app/features/maps/presentation/screens/main_map_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:latlong2/latlong.dart';
 
+import 'config/enums/stairs_enum.dart';
+import 'config/enums/terrain_enum.dart';
 import 'config/theme/app_theme.dart';
 import 'features/maps/presentation/blocs/location/location_bloc.dart';
 import 'features/maps/presentation/blocs/user/user_bloc.dart';
@@ -24,6 +29,15 @@ class AbleApp extends StatelessWidget {
     FlutterNativeSplash.remove();
     return MultiBlocProvider(
       providers: [
+        BlocProvider<RouteBloc>(create: (context) => RouteBloc()..add(
+          const BuildRouteEvent(
+            stairs: StairsEnum.ZERO,
+            gravel: TerrainEnum.EASY,
+            sand: TerrainEnum.MEDIUM,
+            end: LatLng(50.935429, 11.578313),
+            start: LatLng(50.93675, 11.578971),
+          ),
+        )),
         BlocProvider<UserBloc>(create: (context) => UserBloc()),
         BlocProvider<LocationBloc>(
           create:
@@ -35,8 +49,8 @@ class AbleApp extends StatelessWidget {
         themeMode: ThemeMode.light,
         theme: AppTheme.light,
       // home:  MainMapScreen(),
-       home:  SettingsScreen(),
-       // home:  const LandingScreen(),
+       //home:  SettingsScreen(),
+        home:  const LandingScreen(),
       ),
     );
   }

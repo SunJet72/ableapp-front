@@ -1,4 +1,10 @@
+import 'dart:math' as math;
+import 'dart:math';
+
 import 'package:able_app/config/constants/app_colors.dart';
+import 'package:able_app/config/enums/stairs_enum.dart';
+import 'package:able_app/config/enums/terrain_enum.dart';
+import 'package:able_app/features/maps/presentation/blocs/route/route_bloc.dart';
 import 'package:able_app/features/maps/presentation/shared/search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +27,7 @@ class _MainMapScreenState extends State<MainMapScreen> {
   final Location location = Location();
   LatLng? currentLocation;
   final formatKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -54,19 +61,41 @@ class _MainMapScreenState extends State<MainMapScreen> {
                   mapController: mapController,
                   options: MapOptions(
                     initialZoom: 12,
-                    initialCenter: state.location,
+                    // initialCenter: state.location,
+                    initialCenter: LatLng(50.935429, 11.578313),
                     interactionOptions: const InteractionOptions(
                       flags: ~InteractiveFlag.doubleTapZoom,
                     ),
                   ),
                   children: [
-                    
                     TileLayer(
                       urlTemplate:
                           'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                       userAgentPackageName: 'dev.fleaflet.flutter_map.example',
                     ),
-                    PolylineLayer(polylines: [Polyline(points: [])]),
+                    BlocBuilder<RouteBloc, RouteState>(
+                      builder: (context, state) {
+                        print(state);
+
+                        if (state is RouteLoaded) {
+                          print(state.way.paths);
+                          
+                          return PolylineLayer(
+                            polylines: [
+                              for (final route in state.way.paths)
+
+                                Polyline(
+                                  points: route.points,
+                                  strokeWidth: 4,
+                                  color:  Color(route.hashCode),
+                                ),
+                            ],
+                          );
+                        } else {
+                          return const SizedBox.shrink();
+                        }
+                      },
+                    ),
                     const CurrentLocationLayer(),
                   ],
                 ),

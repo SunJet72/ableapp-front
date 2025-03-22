@@ -31,13 +31,14 @@ class RouteRepositoryImpl implements RouteRepository {
       url,
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        'sendState': sandState,
-        'stairsCount': stairsCount,
-        'gravelState': gravelState,
+        'sendState': sandState.index,
+        'stairsCount': stairsCount.index,
+        'gravelState': gravelState.index,
         'start': {'lat': start.latitude, 'lon': start.longitude},
         'end': {'lat': end.latitude, 'lon': end.longitude},
       }),
     );
+    print(response.statusCode);
     if (response.statusCode == 200) {
       return DataSuccess<Way>(
         WayMapper.toEntity(WayModel.fromJson(jsonDecode(response.body))),
