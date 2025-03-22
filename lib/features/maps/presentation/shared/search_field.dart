@@ -1,5 +1,5 @@
 import 'package:able_app/config/constants/app_colors.dart';
-import 'package:able_app/features/maps/shared/settings_screen.dart';
+import 'package:able_app/features/maps/presentation/shared/settings_screen.dart';
 import 'package:flutter/material.dart';
 
 class SearchField extends StatefulWidget {

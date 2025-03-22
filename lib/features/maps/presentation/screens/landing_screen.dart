@@ -1,7 +1,8 @@
 import 'package:able_app/config/constants/app_colors.dart';
 import 'package:able_app/config/enums/stairs_enum.dart';
 import 'package:able_app/config/enums/terrain_enum.dart';
-import 'package:able_app/features/maps/presentation/blocs/user_bloc/user_bloc.dart';
+import 'package:able_app/features/maps/presentation/screens/main_map_screen.dart';
+import 'package:able_app/features/maps/presentation/shared/difficulty_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dial_knob/flutter_dial_knob.dart';

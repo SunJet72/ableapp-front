@@ -6,13 +6,15 @@ import 'package:http/http.dart';
 class DependencyInjection {
   const DependencyInjection._();
 
-  void injectDependencies() {
+  static void injectDependencies() {
     GetIt.instance.registerSingleton<Client>(Client());
+    _registerServices();
+    _registerRepositories();
   }
 
-  void _registerServices() {}
+  static void _registerServices() {}
 
-  void _registerRepositories() {
+  static void _registerRepositories() {
     GetIt.I.registerSingleton<RouteRepository>(
       RouteRepositoryImpl(client: GetIt.I<Client>()),
     );
