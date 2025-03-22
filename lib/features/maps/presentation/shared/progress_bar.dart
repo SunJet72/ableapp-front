@@ -1,8 +1,13 @@
 import 'package:able_app/config/constants/app_colors.dart';
+import 'package:able_app/config/enums/terrain_type.dart';
+import 'package:able_app/features/maps/domain/entities/way.dart';
 import 'package:flutter/material.dart';
 
 class ProgressBar extends StatefulWidget {
-  const ProgressBar({super.key});
+   ProgressBar( Way way){
+     this.way = way;
+   }
+  late Way way;
   final double progress = 0.45; // Прогресс от 0.0 до 1.0
 
   @override
@@ -17,7 +22,31 @@ class _ProgressBarState extends State<ProgressBar> {
   ];
   final List<double> segmentPercents = [0.3, 0.4, 0.3]; // Сумма = 1.0
 
+void generateProgressBar(){
+  segmentPercents.clear();
+  textures.clear();
+  final pathes = widget.way.paths;
 
+  for(var path in pathes){
+    switch(path.terrain){
+      case TerrainType.gravel:
+        textures.add('lib/images/grawel.jpg');
+        segmentPercents.add(path.duration.inMilliseconds.toDouble());
+        break;
+      case TerrainType.normal:
+        textures.add('lib/images/road_stairs.png');
+        segmentPercents.add(path.duration.inMilliseconds.toDouble());
+        break;
+      case TerrainType.sand:
+        textures.add('lib/images/coublestone_stairs.png');
+        segmentPercents.add(path.duration.inMilliseconds.toDouble());
+        break;
+    }
+    double proportion= path.duration.inMilliseconds.toDouble()/ widget.way.duration.toDouble();
+    segmentPercents.add(proportion);
+  }
+    
+}
  @override
 Widget build(BuildContext context) {
   final double barWidth = MediaQuery.of(context).size.width * 0.8;

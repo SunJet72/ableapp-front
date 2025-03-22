@@ -4,6 +4,7 @@ import 'package:able_app/config/enums/terrain_enum.dart';
 import 'package:able_app/features/maps/presentation/blocs/user/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -20,6 +21,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
   String selectedSand = "?";
   String selectedGravel = "?";
   String selectedLanguage = "English";
+
+
+
+void _callPhoneNumber(String number) async {
+  final Uri url = Uri(scheme: 'tel', path: number);
+  if (await canLaunchUrl(url)) {
+    await launchUrl(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +51,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ElevatedButton(
                     onPressed: () {
                     print("mama");
+                   _callPhoneNumber("+4917636089141");
                     },
                     child: const Text(
                       "SOS",

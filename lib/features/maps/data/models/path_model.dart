@@ -1,3 +1,4 @@
+
 import 'package:equatable/equatable.dart';
 import 'package:latlong2/latlong.dart';
 

@@ -1,0 +1,1 @@
+enum TerrainType{gravel, sand, normal}

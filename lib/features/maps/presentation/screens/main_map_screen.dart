@@ -50,6 +50,7 @@ class _MainMapScreenState extends State<MainMapScreen> {
               ),
             );
           }
+          
         },
         builder: (context, state) {
           if (state is LocationLoading) {
